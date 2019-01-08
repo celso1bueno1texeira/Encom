@@ -8,8 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.celsobueno.home.domain.Categoria;
+import com.celsobueno.home.domain.Cidade;
+import com.celsobueno.home.domain.Estado;
 import com.celsobueno.home.domain.Produto;
 import com.celsobueno.home.repository.CategoriaRepository;
+import com.celsobueno.home.repository.CidadeRepository;
+import com.celsobueno.home.repository.EstadoRepository;
 import com.celsobueno.home.repository.ProdutoRepository;
 
 @SpringBootApplication
@@ -20,6 +24,12 @@ public class EncomApplication implements CommandLineRunner {
 	
 	@Autowired
 	private ProdutoRepository produtoRepository;
+	
+	@Autowired
+	private EstadoRepository estadoRepository;
+	
+	@Autowired
+	private CidadeRepository cidadeRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(EncomApplication.class, args);
@@ -48,13 +58,38 @@ public class EncomApplication implements CommandLineRunner {
 		p3.getCategorias().addAll(Arrays.asList(cat3));
 		p4.getCategorias().addAll(Arrays.asList(cat1));
 		p5.getCategorias().addAll(Arrays.asList(cat3));
-		p6.getCategorias().addAll(Arrays.asList(cat3));
-		
-		
+		p6.getCategorias().addAll(Arrays.asList(cat3));				
 		
 		
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5, p6));
+		
+		
+		Estado est1 = new Estado(null, "Minas Gerais");
+		Estado est2 = new Estado(null, "São Paulo");
+		Estado est3 = new Estado(null, "Mato Grosso do Sul");
+		Estado est4 = new Estado(null, "Parana");
+		Estado est5 = new Estado(null, "Santa Catarina");
+		
+		Cidade cd1 = new Cidade(null, "Uberlandia", Estado.getId(est1));
+		Cidade cd2 = new Cidade(null,  "Belo Horizonte", est1);
+		Cidade cd3  = new Cidade(null, "Montes Claros", est1);
+		Cidade cd4 = new Cidade(null, "Campo Grande", est3);
+		Cidade cd5 = new Cidade(null, "Dorados", est3);
+		Cidade cd6 = new Cidade(null, "Cambará", est4);
+		Cidade cd7 = new Cidade(null, "Londrina", est1);
+		Cidade cd8 = new Cidade(null, "Blumenau", est5);
+		Cidade cd9= new Cidade(null, "São Paulo", est2);
+		Cidade cd10 = new Cidade(null, "Campinas", est2);
+		
+		est1.getCidades().addAll	(Arrays.asList(cd1, cd2, cd3));	
+		est2.getCidades().addAll	(Arrays.asList(cd9, cd10));	
+		est3.getCidades().addAll	(Arrays.asList(cd4, cd5));	
+		est4.getCidades().addAll	(Arrays.asList(cd6, cd7));
+		est5.getCidades().addAll	(Arrays.asList(cd8));	
+		
+		estadoRepository.saveAll(Arrays.asList(est1, est2, est3, est4 ,est5));
+		cidadeRepository.saveAll(Arrays.asList(cd1, cd2, cd3, cd4 ,cd5, cd6 ,cd7,cd8 ,cd9, cd10));
 		}	
 	
 }
