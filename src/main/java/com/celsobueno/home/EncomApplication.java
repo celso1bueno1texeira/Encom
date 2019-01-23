@@ -13,6 +13,7 @@ import com.celsobueno.home.domain.Cidade;
 import com.celsobueno.home.domain.Cliente;
 import com.celsobueno.home.domain.Endereco;
 import com.celsobueno.home.domain.Estado;
+import com.celsobueno.home.domain.ItemPedido;
 import com.celsobueno.home.domain.Pagamento;
 import com.celsobueno.home.domain.PagamentoComBoleto;
 import com.celsobueno.home.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.celsobueno.home.repository.CidadeRepository;
 import com.celsobueno.home.repository.ClienteRepository;
 import com.celsobueno.home.repository.EnderecoRepository;
 import com.celsobueno.home.repository.EstadoRepository;
+import com.celsobueno.home.repository.ItemPedidoRepository;
 import com.celsobueno.home.repository.PagamentoRepository;
 import com.celsobueno.home.repository.PedidoRepository;
 import com.celsobueno.home.repository.ProdutoRepository;
@@ -55,6 +57,9 @@ public class EncomApplication implements CommandLineRunner {
 
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(EncomApplication.class, args);
@@ -143,6 +148,19 @@ public class EncomApplication implements CommandLineRunner {
 		
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 800.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 		
 
 		
