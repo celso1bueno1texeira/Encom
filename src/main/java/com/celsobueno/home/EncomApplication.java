@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.celsobueno.home.domain.Categoria;
 import com.celsobueno.home.domain.Cidade;
+import com.celsobueno.home.domain.Cliente;
+import com.celsobueno.home.domain.Endereco;
 import com.celsobueno.home.domain.Estado;
 import com.celsobueno.home.domain.Produto;
+import com.celsobueno.home.domain.enums.TipoCliente;
 import com.celsobueno.home.repository.CategoriaRepository;
 import com.celsobueno.home.repository.CidadeRepository;
+import com.celsobueno.home.repository.ClienteRepository;
+import com.celsobueno.home.repository.EnderecoRepository;
 import com.celsobueno.home.repository.EstadoRepository;
 import com.celsobueno.home.repository.ProdutoRepository;
 
@@ -30,6 +35,12 @@ public class EncomApplication implements CommandLineRunner {
 	
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(EncomApplication.class, args);
@@ -68,16 +79,16 @@ public class EncomApplication implements CommandLineRunner {
 		Estado est1 = new Estado(null, "Minas Gerais");
 		Estado est2 = new Estado(null, "São Paulo");
 		Estado est3 = new Estado(null, "Mato Grosso do Sul");
-		Estado est4 = new Estado(null, "Parana");
+		Estado est4 = new Estado(null, "Párana");
 		Estado est5 = new Estado(null, "Santa Catarina");
 		
-		Cidade cd1 = new Cidade(null, "Uberlandia", Estado.getId(est1));
+		Cidade cd1 = new Cidade(null, "Uberlândia", est1);
 		Cidade cd2 = new Cidade(null,  "Belo Horizonte", est1);
 		Cidade cd3  = new Cidade(null, "Montes Claros", est1);
 		Cidade cd4 = new Cidade(null, "Campo Grande", est3);
-		Cidade cd5 = new Cidade(null, "Dorados", est3);
+		Cidade cd5 = new Cidade(null, "Dourados", est3);
 		Cidade cd6 = new Cidade(null, "Cambará", est4);
-		Cidade cd7 = new Cidade(null, "Londrina", est1);
+		Cidade cd7 = new Cidade(null, "Londrina", est4);
 		Cidade cd8 = new Cidade(null, "Blumenau", est5);
 		Cidade cd9= new Cidade(null, "São Paulo", est2);
 		Cidade cd10 = new Cidade(null, "Campinas", est2);
@@ -90,6 +101,20 @@ public class EncomApplication implements CommandLineRunner {
 		
 		estadoRepository.saveAll(Arrays.asList(est1, est2, est3, est4 ,est5));
 		cidadeRepository.saveAll(Arrays.asList(cd1, cd2, cd3, cd4 ,cd5, cd6 ,cd7,cd8 ,cd9, cd10));
+		
+		Cliente cli1= new Cliente(null, "Maria Silva", "maria@gmail.com", "999999999-99", TipoCliente.PESSOAFISICA);
+		
+		cli1.getTelefones().addAll(Arrays.asList("67996882111" , "6733505050"));
+		
+		Endereco e1 = new Endereco(null, "Rua Flores", "300", "Apto 303", "Jardim", "79083590", cli1, cd1);
+		Endereco e2= new Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, cd2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1, e2));
+		
+		
 		}	
 	
 }
