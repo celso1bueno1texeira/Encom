@@ -21,12 +21,7 @@ public class PedidoResource {
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 		Pedido obj = service.buscar(id);
 		return ResponseEntity.ok().body(obj);
-		
-		
-		
-		
-		
-	}
-	
+			
+	}	
 
 }
